@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+    background-color: var(--gray-400);
+    color: var(--gray-100);
+    font-size: 0.875rem;    
+    padding: 1rem;
+    width: 50%;
+    margin: 1rem auto;
+    border-radius: 8px;
+    gap: 12px;
+}

@@ -1,0 +1,9 @@
+.formWrapper {
+    display:flex;
+    justify-content: center;
+    align-items: center;   
+    gap:0.5rem;
+    width: 50%;
+    margin: calc(0px - 1.5rem - 4px) auto;
+}
+
