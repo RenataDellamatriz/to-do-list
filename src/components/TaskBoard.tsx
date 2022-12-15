@@ -12,8 +12,7 @@ export function TaskBoard() {
           <p>Crie tarefas e organize seus itens a fazer</p>
         </div>
       </div>
-
-      <Task />
+      
     </>
   );
 }
