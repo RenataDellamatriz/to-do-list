@@ -4,17 +4,17 @@ import { Header } from "./components/Header";
 import { Input } from "./components/Input";
 import "./global.css";
 import { TaskBoard } from "./components/TaskBoard";
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Task } from "./components/Task";
-import { CheckboxInput } from "./components/CheckboxInput";
+import { CheckboxIndicatorProps } from "@radix-ui/react-checkbox";
 
 function App() {
   const [tasks, setTasks] = useState<string[]>([]);
   const [newTask, setNewTask] = useState("");
+  const createdTask = tasks.length;
 
-  const createdTask = tasks.length
-  const [completedTask, setCompletedTask] = useState(0)
-
+  const [checkedTasks, setCheckedTasks] = useState<string[]>([]);
+  const completedTask = checkedTasks.length;
 
   function handleCreateNewTask(event: FormEvent) {
     event.preventDefault();
@@ -23,73 +23,76 @@ function App() {
     setNewTask("");
   }
 
-  function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>){
-    event.target.setCustomValidity('');
-    setNewTask(event.target.value)
+  function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
+    event.target.setCustomValidity("");
+    setNewTask(event.target.value);
   }
 
-  function handleNewTaskInvalid(event:InvalidEvent<HTMLInputElement>){
-    event.target.setCustomValidity('Este campo é obrigatório')
+  function handleNewTaskInvalid(event: InvalidEvent<HTMLInputElement>) {
+    event.target.setCustomValidity("Este campo é obrigatório");
   }
 
-
-
-  function deleteTask(taskToDelete:string) {
+  function deleteTask(taskToDelete: string) {
     const tasksWithoutDeletedOne = tasks.filter((task) => {
-      return task !== taskToDelete
-    })
-    setTasks(tasksWithoutDeletedOne)
+      return task !== taskToDelete;
+    });
+    setTasks(tasksWithoutDeletedOne);
   }
-  
-  
 
   const isNewTaskEmpty = newTask.length === 0;
 
-  // function checkedTask() {
-  //   const 
-  // }
-  
+  function checkedTask(task: string, checked: boolean) {
+    if (checked) {
+      setCheckedTasks((value) => [...value, task]);
+    } else {
+      const filteredTasks = checkedTasks.filter((value) => {
+        return value !== task;
+      });
+      setCheckedTasks(filteredTasks);
+    }
+  }
+
   return (
     <div className="App">
       <Header />
-      <form 
-      className={styles.formWrapper} 
-      onSubmit={handleCreateNewTask}      
-      >
-        <Input 
-        name='task'
-        value={newTask}
-        placeholder='Adicione uma nova tarefa'   
-        onChange={handleNewTaskChange}    
-        onInvalid={handleNewTaskInvalid}    
+      <form className={styles.formWrapper} onSubmit={handleCreateNewTask}>
+        <Input
+          name="task"
+          value={newTask}
+          placeholder="Adicione uma nova tarefa"
+          onChange={handleNewTaskChange}
+          onInvalid={handleNewTaskInvalid}
         />
-        <Button type='submit' disabled={isNewTaskEmpty} />
+        <Button type="submit" disabled={isNewTaskEmpty} />
       </form>
 
-     
       <div className={styles.taskHeader}>
-      <div className={styles.taskHeaderCriated}>
-        <strong>Tarefas Criadas</strong>
-        <p>{createdTask}</p>
+        <div className={styles.taskHeaderCriated}>
+          <strong>Tarefas Criadas</strong>
+          <p>{createdTask}</p>
+        </div>
+        <div className={styles.taskHeaderCompleted}>
+          <strong>Concluídas</strong>
+          <p>            
+            {completedTask} de {createdTask}
+          </p>
+        </div>
       </div>
-      <div className={styles.taskHeaderCompleted}>
-        <strong>Concluídas</strong>
-        <p>{completedTask} de {createdTask}</p>
-      </div>
-    </div>
 
-      {tasks.length === 0 ? <TaskBoard /> : 
-      tasks.map((task)=>{
-        return(
-         <Task
-         content={task}
-         onDeleteTask = {deleteTask}
-         />
-        )
-      })
-
-      }
-      
+      {tasks.length === 0 ? (
+        <TaskBoard />
+      ) : (
+        tasks.map((task) => {
+          return ( 
+            <Task            
+              isChecked ={checkedTasks.some((checkedTask) => checkedTask === task)}  
+              onCheckedTask={checkedTask}
+              content={task}
+              onDeleteTask={deleteTask}
+            />
+          );
+        })
+      )}
     </div>
   );
 }
