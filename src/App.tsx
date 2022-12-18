@@ -14,7 +14,7 @@ function App() {
   const createdTask = tasks.length;
 
   const [checkedTasks, setCheckedTasks] = useState<string[]>([]);
-  const completedTask = checkedTasks.length;
+  const completedTask = checkedTasks.length; 
 
   function handleCreateNewTask(event: FormEvent) {
     event.preventDefault();
@@ -35,9 +35,15 @@ function App() {
   function deleteTask(taskToDelete: string) {
     const tasksWithoutDeletedOne = tasks.filter((task) => {
       return task !== taskToDelete;
-    });
+    });    
+    const tasksCheckedWithoutDeletedOne = checkedTasks.filter((value) => {
+      return value !== taskToDelete
+    })
     setTasks(tasksWithoutDeletedOne);
+    setCheckedTasks(tasksCheckedWithoutDeletedOne)
   }
+  
+  //arrumar
 
   const isNewTaskEmpty = newTask.length === 0;
 
@@ -46,7 +52,7 @@ function App() {
       setCheckedTasks((value) => [...value, task]);
     } else {
       const filteredTasks = checkedTasks.filter((value) => {
-        return value !== task;
+        return value !== task;        
       });
       setCheckedTasks(filteredTasks);
     }
