@@ -7,6 +7,7 @@ import { TaskBoard } from "./components/TaskBoard";
 import React, { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Task } from "./components/Task";
 import { CheckboxIndicatorProps } from "@radix-ui/react-checkbox";
+import useWindowSize from './hooks/useWindowSize';
 
 function App() {
   const [tasks, setTasks] = useState<string[]>([]);
@@ -43,8 +44,6 @@ function App() {
     setCheckedTasks(tasksCheckedWithoutDeletedOne)
   }
   
-  //arrumar
-
   const isNewTaskEmpty = newTask.length === 0;
 
   function checkedTask(task: string, checked: boolean) {
@@ -57,6 +56,7 @@ function App() {
       setCheckedTasks(filteredTasks);
     }
   }
+  const size = useWindowSize()
 
   return (
     <div className="App">
@@ -65,7 +65,7 @@ function App() {
         <Input
           name="task"
           value={newTask}
-          placeholder="Adicione uma nova tarefa"
+          placeholder={size.width <= 500 ? "Adicione" :"Adicione uma nova tarefa" }
           onChange={handleNewTaskChange}
           onInvalid={handleNewTaskInvalid}
         />
@@ -84,7 +84,7 @@ function App() {
           </p>
         </div>
       </div>
-
+     
       {tasks.length === 0 ? (
         <TaskBoard />
       ) : (
@@ -99,7 +99,8 @@ function App() {
           );
         })
       )}
-    </div>
+      </div>
+    
   );
 }
 

@@ -46,9 +46,31 @@
     font-size: 0.875rem;
 }
 
+.taskWrapper {
+    padding-bottom: 4rem;        
+    
+}
+
+
+
 @media screen and (max-width: 500px) {
     .taskHeader {
         flex-direction: column;
         align-items: center;
+        gap:10px;
+    }
+    .formWrapper {
+        width: 75%;
+    }
+
+    .taskHeader {
+        width: 75%;
+    }
+}
+
+@media screen and (min-height: 400px) {
+    .taskWrapper {
+        padding-bottom: 1rem;        
+        
     }
 }
