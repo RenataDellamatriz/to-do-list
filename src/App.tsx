@@ -4,10 +4,10 @@ import { Header } from "./components/Header";
 import { Input } from "./components/Input";
 import "./global.css";
 import { TaskBoard } from "./components/TaskBoard";
-import React, { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Task } from "./components/Task";
-import { CheckboxIndicatorProps } from "@radix-ui/react-checkbox";
 import useWindowSize from './hooks/useWindowSize';
+
 
 function App() {
   const [tasks, setTasks] = useState<string[]>([]);
@@ -65,7 +65,7 @@ function App() {
         <Input
           name="task"
           value={newTask}
-          placeholder={size.width <= 500 ? "Adicione" :"Adicione uma nova tarefa" }
+          placeholder={size.width <= 500 ? "Adicione" :"Adicione uma nova tarefa" }        
           onChange={handleNewTaskChange}
           onInvalid={handleNewTaskInvalid}
         />
